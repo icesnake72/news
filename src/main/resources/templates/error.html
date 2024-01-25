@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>에러</title>
+</head>
+<body>
+  <div class="container">
+    <h4>에러</h4>
+    <p th:text="${message}"></p>
+    <a class="btn btn-outline-primary" th:href="@{/}">홈으로 이동</a>
+  </div>
+</body>
+</html>

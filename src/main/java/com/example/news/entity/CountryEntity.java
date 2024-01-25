@@ -1,5 +1,6 @@
 package com.example.news.entity;
 
+import com.example.news.dto.CountryDTO;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -16,5 +17,15 @@ public class CountryEntity {
   private Long id;
 
   @Column(nullable = false, unique = true)
+  private String c_code;
+
+  @Column(nullable = false, unique = true)
   private String name;
+
+  public static CountryEntity fromCountryDTO(CountryDTO countryDTO) {
+    return CountryEntity.builder()
+      .c_code(countryDTO.getC_code())
+      .name(countryDTO.getName())
+      .build();
+  }
 }

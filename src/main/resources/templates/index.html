@@ -3,11 +3,56 @@
 <head th:replace="~{layout :: head('News')}">
 </head>
 <body>
-  <nav th:replace="~{layout :: navigator}"></nav>
-  <main class="d-flex flex-nowrap">
-    <div th:replace="~{layout :: sidebar}"></div>
-    <div th:replace="~{layout :: divider}"></div>
+  <nav th:replace="~{layout :: navigator('News')}"></nav>
+  <main class="container d-flex flex-nowrap">
+    <div class="m-3 p-3">
+      <div class="d-flex flex-row mb-3 justify-content-between">
+        <span class="fs-4"><strong>뉴스</strong></span>
+      </div>
+
+      <div class="d-flex flex-row pt-3" th:each="news : ${articles}">
+        <div class="news-image col-2">
+          <a th:href="${news.url}" target="_blank">
+            <img th:src="${news.imageUrl != null and news.imageUrl != 'null'} ? ${news.imageUrl} : @{/images/news.png}" alt="news image">
+          </a>
+        </div>
+        <div class="d-flex flex-column col-10 ms-3 news-link">
+          <a th:href="${news.url}" target="_blank">
+            <div>
+              <span class="news-title" th:text="${news.title}"></span>
+            </div>
+            <div class="news-desc">
+              <span class="fs-6" th:text="${news.description}"></span>
+            </div>
+          </a>
+          <div>
+            <span class="fs-6 fw-semibold" th:text="'저자 : '+${news.author}"></span>
+          </div>
+          <div class="news-reg-date mt-1">
+            <div class="fst-italic fw-light" th:text="'발행일 : '+${news.publishedAt}"></div>
+            <div class="fst-italic fw-light" th:text="'발행처 : '+${news.source.name}"></div>
+            <div class="fst-italic fw-light" th:text="'카테고리 : '+${news.category.displayName}"></div>
+          </div>
+        </div>
+      </div>
+
+      <nav aria-label="Page navigation example" class="mt-5">
+        <ul class="pagination justify-content-center">
+          <li class="page-item" th:classappend="${articles.number == 0} ? 'disabled' : ''">
+            <a class="page-link" th:href="@{/articles(page=${articles.number-1})}">Previous</a>
+          </li>
+          <li th:each="pageNum : ${#numbers.sequence(0, articles.totalPages - 1)}" class="page-item" th:classappend="${pageNum == articles.number} ? 'active' : ''">
+            <a class="page-link" th:href="@{/articles(page=${pageNum})}" th:text="${pageNum + 1}">1</a>
+          </li>
+          <li class="page-item" th:classappend="${articles.number == articles.totalPages - 1} ? 'disabled' : ''">
+            <a class="page-link" th:href="@{/articles(page=${articles.number+1})}">Next</a>
+          </li>
+        </ul>
+      </nav>
+
+    </div>
   </main>
+  <footer th:replace="~{layout :: footer}"></footer>
   <div th:replace="~{layout :: bootstrap_script}"></div>
 </body>
 </html>
