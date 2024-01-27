@@ -26,13 +26,24 @@ public class NewsController {
 
   @GetMapping("/")
   public String index(HttpServletRequest request, HttpServletResponse response, Model model) {
-    try {
-      Page<ArticleEntity> articles = newsService.findAll(0, 10);
-      for (ArticleEntity article : articles) {
-        System.out.println(article);
-      }
+    return "redirect:/articles";
+  }
 
+  @GetMapping("/articles")
+  public String articles(Model model, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+    try {
+      Page<ArticleEntity> articles = newsService.findAll(page, size);
+      List<CategoryDTO> categories = newsService.findAllCategories();
+      int currentPage = articles.getNumber(); // 현재 페이지 번호
+      int startPage = (currentPage/size)*10;  // 시작 페이지 계산
+      int endPage = Math.min(articles.getTotalPages() - 1, startPage+9); // 끝 페이지 계산
+      System.out.println("page : " + page + ", size : " + size + ", currentPage : " + currentPage + ", startPage : " + startPage + ", endPage : " + endPage);
+
+      model.addAttribute("startPage", startPage);
+      model.addAttribute("endPage", endPage);
       model.addAttribute("articles", articles);
+      model.addAttribute("categories", categories);
+
     } catch (Exception e) {
       model.addAttribute("message", e.getMessage());
       return "/error";
@@ -40,17 +51,32 @@ public class NewsController {
     return "/index";
   }
 
-  @GetMapping("/articles")
-  public String articles(Model model, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+  @GetMapping("/search")
+  public String articlesByCategoryAndTitleOrDescription(Model model,
+                                                        @RequestParam(defaultValue = "0") int page,
+                                                        @RequestParam(defaultValue = "10") int size,
+                                                        @RequestParam(defaultValue = "") String keyword,
+                                                        @RequestParam(defaultValue = "0") Long categoryId) {
     try {
-      Page<ArticleEntity> articles = newsService.findAll(page, size);
+      Page<ArticleEntity> articles = newsService.findByCategoryAndTitleOrDescription(categoryId, keyword, keyword, page, size);
+      List<CategoryDTO> categories = newsService.findAllCategories();
+      int currentPage = articles.getNumber(); // 현재 페이지 번호
+      int startPage = (currentPage/size)*10;  // 시작 페이지 계산
+      int endPage = Math.min(articles.getTotalPages() - 1, startPage+9); // 끝 페이지 계산
+      //System.out.println("page : " + page + ", size : " + size + ", currentPage : " + currentPage + ", startPage : " + startPage + ", endPage : " + endPage);
+
+      model.addAttribute("startPage", startPage);
+      model.addAttribute("endPage", endPage);
       model.addAttribute("articles", articles);
+      model.addAttribute("categories", categories);
+      model.addAttribute("keyword", keyword);
+      model.addAttribute("categoryId", categoryId);
 
     } catch (Exception e) {
       model.addAttribute("message", e.getMessage());
       return "/error";
     }
-    return "/index";
+    return "/search";
   }
 
   @GetMapping("/categoryInputForm")

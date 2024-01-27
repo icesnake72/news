@@ -32,7 +32,38 @@ public class NewsService {
 
   public Page<ArticleEntity> findAll(int page, int size) {
 
-    return articleRepository.findAll(PageRequest.of(page, size, Sort.by("publishedAt").descending()));
+    return articleRepository.findAll(
+            PageRequest.of(
+                page,
+                size,
+                Sort.by("publishedAt").descending()
+            )
+    );
+  }
+
+  public Page<ArticleEntity> findByCategoryAndTitleOrDescription(Long categoryId, String titleKeyword, String descriptionKeyword, int page, int size) {
+    if (categoryId == 0) {
+      return articleRepository.findByTitleOrDescription(
+              titleKeyword,
+              descriptionKeyword,
+              PageRequest.of(
+                      page,
+                      size,
+                      Sort.by("publishedAt").descending()
+              )
+      );
+    }
+
+    return articleRepository.findByCategoryAndTitleOrDescription(
+            categoryId,
+            titleKeyword,
+            descriptionKeyword,
+            PageRequest.of(
+                page,
+                size,
+                Sort.by("publishedAt").descending()
+            )
+    );
   }
 
   public void saveCategory(CategoryDTO categoryDTO) throws DataIntegrityViolationException, ConstraintViolationException {

@@ -1,21 +1,24 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
-<head th:replace="~{layout :: head('News')}">
+<head th:replace="~{layout :: head('Search Result')}">
 </head>
 <body>
   <nav th:replace="~{layout :: navigator('News')}"></nav>
   <main class="container d-flex flex-column flex-nowrap">
     <div class="m-3 p-3">
       <div class="d-flex flex-row mb-3 justify-content-between">
-        <span class="fs-4 col-3"><strong>뉴스</strong></span>
-        <form class="d-flex flex-row col-9 justify-content-end" th:action="@{/search}" method="get">
+        <span class="fs-4 col-3"><strong>뉴스 검색</strong></span>
+        <form class="d-flex flex-row col-9 g-3 justify-content-end" th:action="@{/search}" method="get">
           <div class="col-3">
-            <input type="text" class="form-control" name="keyword" placeholder="검색어 입력">
+            <input type="text" class="form-control" name="keyword" th:value="${keyword}" placeholder="검색어 입력">
           </div>
           <div class="col-3">
             <select class="form-select col-3" name="categoryId">
-              <option value="" selected>카테고리 선택</option>
-              <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.displayName}"></option>
+              <option value="">카테고리 선택</option>
+              <option th:each="category : ${categories}"
+                      th:value="${category.id}"
+                      th:text="${category.displayName}"
+                      th:selected="${category.id == categoryId}"></option>
             </select>
           </div>
           <button type="submit" class="btn btn-outline-primary btn-sm fs-5 ms-3 col-2">검색</button>
@@ -51,13 +54,13 @@
       <nav aria-label="Page navigation example" class="mt-5">
         <ul class="pagination justify-content-center">
           <li class="page-item" th:classappend="${articles.number == 0} ? 'disabled' : ''">
-            <a class="page-link" th:href="@{/articles(page=${articles.number-1})}">Previous</a>
+            <a class="page-link" th:href="@{/search(page=${articles.number-1}, keyword=${keyword}, categoryId=${categoryId})}">Previous</a>
           </li>
           <li th:each="pageNum : ${#numbers.sequence(startPage, endPage)}" class="page-item" th:classappend="${pageNum == articles.number} ? 'active' : ''">
-            <a class="page-link" th:href="@{/articles(page=${pageNum})}" th:text="${pageNum + 1}">1</a>
+            <a class="page-link" th:href="@{/search(page=${pageNum}, keyword=${keyword}, categoryId=${categoryId})}" th:text="${pageNum + 1}">1</a>
           </li>
           <li class="page-item" th:classappend="${articles.number == articles.totalPages - 1} ? 'disabled' : ''">
-            <a class="page-link" th:href="@{/articles(page=${articles.number+1})}">Next</a>
+            <a class="page-link" th:href="@{/search(page=${articles.number+1}, keyword=${keyword}, categoryId=${categoryId})}">Next</a>
           </li>
         </ul>
       </nav>
