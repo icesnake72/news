@@ -79,34 +79,6 @@ public class NewsController {
     return "/search";
   }
 
-  @GetMapping("/categoryInputForm")
-  public String categoryInput() {
-    return "/categoryInput";
-  }
-
-  @PostMapping("/categorySave")
-  public String categorySave(@ModelAttribute CategoryDTO categoryDTO, Model model) {
-    try {
-      newsService.saveCategory(categoryDTO);
-    } catch (Exception e) {
-      model.addAttribute("message", e.getMessage());
-      return "/error";
-    }
-
-    return "redirect:/categories";
-  }
-
-  @GetMapping("/categories")
-  public String categories(Model model) {
-    try {
-      List<CategoryDTO> categories = newsService.findAllCategories();
-      model.addAttribute("categories", categories);
-    } catch (Exception e) {
-      model.addAttribute("message", e.getMessage());
-      return "/error";
-    }
-    return "/categories";
-  }
 
   @GetMapping("/countryInputForm")
   public String countryInput() {

@@ -6,6 +6,7 @@
   <link rel="stylesheet" th:href="@{/css/style.css}">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  <link th:href="@{/css/sidebars.css}" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
   <title th:text="${title}">???</title>
 </head>
@@ -13,16 +14,13 @@
   <nav class="navbar navbar-expand-md navbar-dark bg-dark" th:fragment="navigator(title)">
     <div class="container-fluid">
       <a class="navbar-brand" href="#" th:href="@{|/|}"><i class="bi bi-badge-sd" style="font-size: 2rem;"></i></a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
       <div class="collapse navbar-collapse" id="navbarCollapse">
         <ul class="navbar-nav me-auto mb-2 mb-md-0">
           <li class="nav-item">
             <a class="nav-link" th:classappend="${title == 'News'} ? 'active' : ''" aria-current="page" th:href="@{|/|}" th:text="News">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" th:classappend="${title == 'Category'} ? 'active' : ''" th:text="Category" th:href="@{|/categories|}">Category</a>
+            <a class="nav-link" th:classappend="${title == 'Category'} ? 'active' : ''" th:text="Category" th:href="@{|/categories|}">Crypto Currency</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" th:classappend="${title == 'Country'} ? 'active' : ''" th:text="Country" th:href="@{|/countries|}">Country</a>
@@ -34,13 +32,15 @@
             <a class="nav-link" th:text="About" th:href="@{|/|}">About</a>
           </li>
         </ul>
-        <!--        <form class="d-flex" role="search">-->
-        <!--          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">-->
-        <!--          <button class="btn btn-outline-success" type="submit">Search</button>-->
-        <!--        </form>-->
+      <!--        <form class="d-flex" role="search">-->
+      <!--          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">-->
+      <!--          <button class="btn btn-outline-success" type="submit">Search</button>-->
+      <!--        </form>-->
       </div>
     </div>
   </nav>
+
+
 
   <footer th:fragment="footer" class="footer fixed-bottom mt-auto py-3 bg-dark text-white text-decoration-none">
     <div class="container">

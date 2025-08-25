@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head th:replace="~{layout :: head('카테고리 입력')}">
+</head>
+<body>
+  <main class="container-fluid d-flex flex-nowrap flex-row">
+    <div th:replace="~{/admin/admin :: side_bar}"></div>
+    <div class="d-flex flex-column w-100 p-3">
+      <div class="col-lg-6">
+        <div class="m-3 p-3">
+          <h4 class="mb-3">카테고리 입력</h4>
+          <div class="mb-3">
+            <hr>
+          </div>
+          <form class="d-flex flex-column mt-5" th:action="@{/admin/categorySave}" method="post">
+            <div class="mb-5">
+              <label for="category-display-name" class="form-label fw-semibold">카테고리 이름</label>
+              <input class="form-control" type="text" id="category-display-name" name="displayName" placeholder="카테고리명" required>
+            </div>
+            <div class="mb-5">
+              <label for="category-name" class="form-label fw-semibold">News API 카테고리 항목</label>
+              <input class="form-control" type="text" id="category-name" name="name" placeholder="카테고리 항목" required>
+            </div>
+            <div class="mb-3">
+              <label for="category-desc" class="form-label fw-semibold">카테고리 설명</label>
+              <textarea class="form-control" id="category-desc" name="description" placeholder="카테고리에대한 설명을 입력하세요"></textarea>
+            </div>
+            <div class="mb-3">
+              <button class="btn btn-outline-primary" type="submit">저장</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </main>
+  <footer th:replace="~{layout :: footer}"></footer>
+  <div th:replace="~{layout :: bootstrap_script}"></div>
+</body>
+</html>

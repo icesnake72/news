@@ -77,6 +77,8 @@
 .container-lg,
 .container-xl {
     padding-bottom: 7rem;
+    /* Footer height */
+    /*max-height: calc(100vh - 7rem);*/
 }
 
 .footer {
@@ -143,3 +145,4 @@
   color: #858585;
   font-size: 0.9rem;
 }
+

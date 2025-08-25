@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
+import java.net.URLDecoder;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 
 @Getter
@@ -35,7 +38,7 @@ public class ArticleEntity {
   @Builder.Default
   private String url = "";
 
-  @Column
+  @Column(columnDefinition = "TEXT")
   @Builder.Default
   private String imageUrl = "";
 
@@ -58,4 +61,12 @@ public class ArticleEntity {
   @ManyToOne
   @JoinColumn(name = "country_id")
   private CountryEntity country;
+
+  public String getUrl() {
+    return URLDecoder.decode(url, StandardCharsets.UTF_8);
+  }
+
+  public String getImageUrl() {
+    return URLDecoder.decode(imageUrl, StandardCharsets.UTF_8);
+  }
 }
